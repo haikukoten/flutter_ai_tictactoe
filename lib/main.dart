@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
 import './fillEntry.dart';
 
+/*
+  @author mohammed fathauddin
+  @since 2019
+  @version 0.1
+  @email mfatha.fire@gmail.com
+*/
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {

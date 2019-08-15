@@ -1,5 +1,12 @@
 import 'package:flutter/material.dart';
 
+/*
+  @author mohammed fathauddin
+  @since 2019
+  @version 0.1
+  @email mfatha.fire@gmail.com
+*/
+
 class FillEntry extends StatelessWidget {
 
   final String _entry; 
