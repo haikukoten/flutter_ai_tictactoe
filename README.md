@@ -10,7 +10,7 @@ Alogrithm:
 	URL : https://www.freecodecamp.org/news/how-to-make-your-tic-tac-toe-game-unbeatable-by-using-the-minimax-algorithm-9d690bad4b37/
 
 	Minmax Alogrithm-
-		1) return a value if a terminal state is found (+10,0,-10)
+	1) return a value if a terminal state is found (+10,0,-10)
         2) go through available spots on board
         3) call the minmax funcation on each available spot (recursion)
         4) wvaluate retuning value from funaction calls
