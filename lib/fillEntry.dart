@@ -8,6 +8,9 @@ class FillEntry extends StatelessWidget {
 
   final bool _shiftTextColor;
 
+  static var huPlayer = 'O';
+  static var aiPlayer = 'X';
+
   FillEntry(this._color,this._entry,this._shiftTextColor);
 
   @override
@@ -23,7 +26,7 @@ class FillEntry extends StatelessWidget {
         style: TextStyle(
           fontWeight: FontWeight.bold, 
           fontSize: 40,
-          color: _shiftTextColor ? Colors.green: Color(0xfffafafa),
+          color: _shiftTextColor ? (_entry==aiPlayer ? Colors.red : Colors.green): Color(0xfffafafa),
         ),
       ),
     );

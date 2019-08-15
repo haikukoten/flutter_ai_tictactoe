@@ -31,7 +31,8 @@ class _MyHomePageState extends State<MyHomePage> {
   List<Color> colorCell = new List(9);
   static var huPlayer = 'O';
   static var aiPlayer = 'X';
-  static var _color = Color(0xfafafa);
+  static var _color = Color(0xfafafa);  
+  var winnerCombo;
 
   static var winCombos = [
     [0,1,2],
@@ -43,8 +44,6 @@ class _MyHomePageState extends State<MyHomePage> {
     [0,4,8],
     [6,4,2]
   ];
-
-  var winnerCombo;
 
   void startGame(){
     setState(() {
@@ -122,12 +121,14 @@ class _MyHomePageState extends State<MyHomePage> {
       if(winnerCombo!= null){
         for(int i=0; i<3;i++){
           setState(() {
-           colorCell[winnerCombo[i]] = Colors.green; 
+           colorCell[winnerCombo[i]] = (field==huPlayer? Colors.green : Colors.red); 
           });
         }
+        _showDialog("You Lost");
         print("game over, " + field + ' won');
       }else{
-        print('Game Tie');
+        _showDialog("Game Tie");
+        //print('Game Tie');
       }
     }else{
       print("next Play");
@@ -219,23 +220,46 @@ class _MyHomePageState extends State<MyHomePage> {
     return moves[bestMove];
   }
 
+  void _showDialog(message) {
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text(message, style: TextStyle(fontWeight: FontWeight.bold),),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Restart"),
+              onPressed: () {
+                startGame();
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
+      // appBar: AppBar(
+      //   title: Text(widget.title),
+      // ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
               Container(
                 margin: EdgeInsets.all(5),
-                child: Text("Welcome to the Game")
+                child: Text("Welcome to the Challenge",style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold))
                 ),
               Container(
-                  padding: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
+                  padding: EdgeInsets.only(left: 2, right: 2, top: 5, bottom: 5),
+                  height: 500,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
@@ -253,8 +277,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                   bottom: BorderSide(width: 2, color: Color(0xFFFF000000)),
                                 ),
                               ),
-                              width: 75,
-                              height: 75,
+                              width: 100,
+                              height: 100,
                               alignment: Alignment.center,
                               child: FillEntry(colorCell[0]==null?_color:colorCell[0],origBoard[0],(colorCell[0]==null?true:false)),
                             ),
@@ -272,8 +296,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                 bottom: BorderSide(width: 2, color: Color(0xFFFF000000)),
                               ),
                             ),
-                            width: 75,
-                            height: 75,
+                            width: 100,
+                            height: 100,
                             alignment: Alignment.center,
                             child: FillEntry(colorCell[1]==null?_color:colorCell[1],origBoard[1],(colorCell[1]==null?true:false)),
                             ), //Top Center
@@ -290,8 +314,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                   bottom: BorderSide(width: 2, color: Color(0xFFFF000000)),
                                 ),
                               ),
-                              width: 75,
-                              height: 75,
+                              width: 100,
+                              height: 100,
                               alignment: Alignment.center,
                               child: FillEntry(colorCell[2]==null?_color:colorCell[2],origBoard[2],(colorCell[2]==null?true:false)),
                            ) //Top Right
@@ -314,8 +338,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                 bottom: BorderSide(width: 2, color: Color(0xFFFF000000)),
                               ),
                             ),
-                            width: 75,
-                            height: 75,
+                            width: 100,
+                            height: 100,
                             alignment: Alignment.center,
                             child: FillEntry(colorCell[3]==null?_color:colorCell[3],origBoard[3],(colorCell[3]==null?true:false)),
                           ), //Middle Left
@@ -335,8 +359,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                 bottom: BorderSide(width: 2, color: Color(0xFFFF000000)),
                               ),
                             ),
-                            width: 75,
-                            height: 75, 
+                            width: 100,
+                            height: 100, 
                             alignment: Alignment.center,
                             child: FillEntry(colorCell[4]==null?_color:colorCell[4],origBoard[4],(colorCell[4]==null?true:false)),
                           ), //Middle Center
@@ -355,8 +379,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                   bottom: BorderSide(width: 2, color: Color(0xFFFF000000)),
                                 ),
                               ),
-                              width: 75,
-                              height: 75, 
+                              width: 100,
+                              height: 100, 
                               alignment: Alignment.center,
                               child: FillEntry(colorCell[5]==null?_color:colorCell[5],origBoard[5],(colorCell[5]==null?true:false)),
                             ) //Middle Right
@@ -378,8 +402,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                   right: BorderSide(width: 2, color: Color(0xFFFF000000)),
                                 ),
                               ),
-                              width: 75,
-                              height: 75, 
+                              width: 100,
+                              height: 100, 
                               alignment: Alignment.center,
                               child: FillEntry(colorCell[6]==null?_color:colorCell[6],origBoard[6],(colorCell[6]==null?true:false)),
                             ), //Bottom Left
@@ -397,8 +421,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                   right: BorderSide(width: 2, color: Color(0xFFFF000000)),
                                 ),
                               ),
-                              width: 75,
-                              height: 75, 
+                              width: 100,
+                              height: 100, 
                               alignment: Alignment.center,
                               child: FillEntry(colorCell[7]==null?_color:colorCell[7],origBoard[7],(colorCell[7]==null?true:false)),
                             ), //Bottom Center
@@ -415,8 +439,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                   left: BorderSide(width: 2, color: Color(0xFFFF000000)),
                                 ),
                               ),
-                              width: 75,
-                              height: 75, 
+                              width: 100,
+                              height: 100, 
                               alignment: Alignment.center,
                               child: FillEntry(colorCell[8]==null?_color:colorCell[8],origBoard[8],(colorCell[8]==null?true:false)),
                             ) //Bottom Right
@@ -428,7 +452,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               Container(
                 margin: EdgeInsets.all(5),
-                child: Text("You are a winner")
+                child: Text("Beat my AI,",style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),)
                 ),
           ],
         )
