@@ -5,11 +5,11 @@ Ai based Tic Tac Toe game developed with Flutter Interface
 Simple Game Developed with Google Flutter Framework.
 
 
-Alogrithm:
+Algorithm:
 
 	URL : https://www.freecodecamp.org/news/how-to-make-your-tic-tac-toe-game-unbeatable-by-using-the-minimax-algorithm-9d690bad4b37/
 
-	Minmax Alogrithm-
+	Minmax Algorithm-
 		1) return a value if a terminal state is found (+10,0,-10)
 		2) go through available spots on board
 		3) call the minmax funcation on each available spot (recursion)
