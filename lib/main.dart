@@ -29,10 +29,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   List<String> origBoard = new List(9);
   List<Color> colorCell = new List(9);
-  static var huPlayer = '0';
+  static var huPlayer = 'O';
   static var aiPlayer = 'X';
   static var _color = Color(0xfafafa);
-  bool _switchPlayer = true;
 
   static var winCombos = [
     [0,1,2],
@@ -64,7 +63,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _userClicker(cellId){
     print("clicked : " + cellId.toString());
-    _occupyCell(cellId,huPlayer);
+    if(winnerCombo == null){
+      _occupyCell(cellId,huPlayer);
+    }else{
+      print("Game is already won");
+    }
   }
 
   bool checkGamePlay(field){
@@ -87,6 +90,24 @@ class _MyHomePageState extends State<MyHomePage> {
       return true;
   }
 
+  bool analysGamePlay(board,field){
+    //Check for winnning combo
+      for(var i= 0 ; i< winCombos.length; i++){
+        if( (board[winCombos[i][0]].toString() != null && board[winCombos[i][0]].toString()== field) && 
+            (board[winCombos[i][1]].toString() != null && board[winCombos[i][1]].toString()== field) && 
+            (board[winCombos[i][2]].toString() != null && board[winCombos[i][2]].toString()== field) ){
+            return true;
+        }
+      }
+      //check all space occupied
+      for(var i = 0; i< board.length; i++){
+        if(board[i].toString() != aiPlayer && board[i].toString() != huPlayer){
+          return false;
+        }
+      }
+      return false;
+  }
+
   void _occupyCell(cellId,field){
     setState(() {
       if(origBoard[cellId] == null){
@@ -98,7 +119,6 @@ class _MyHomePageState extends State<MyHomePage> {
     });
     //Check Game Over or Not
     if(checkGamePlay(field)){
-      //TODO Announce for winner
       if(winnerCombo!= null){
         for(int i=0; i<3;i++){
           setState(() {
@@ -112,7 +132,6 @@ class _MyHomePageState extends State<MyHomePage> {
     }else{
       print("next Play");
       if(field==huPlayer){
-        //TODO Ai Should Play Next
         print('AI Turn');
         _occupyCell(bestSpot(),aiPlayer);
       }else{
@@ -124,7 +143,7 @@ class _MyHomePageState extends State<MyHomePage> {
   emptySpots(board){
     List<int> emptySpots = new List();
     for(var i =0; i<board.length; i++){
-      if(board[i]== null){
+      if(board[i].toString() != aiPlayer && board[i].toString() != huPlayer){
         emptySpots.add(i);
       }
     }
@@ -140,17 +159,20 @@ class _MyHomePageState extends State<MyHomePage> {
         4) wvaluate retuning value from funaction calls
         5) and return the best value
     */
-    
-    print('best spot : ' + minmax(new List.from(     origBoard),aiPlayer).toString());
-    return minmax(new List.from(   origBoard),aiPlayer)['index'];
+    List tempBoard = new List.from(origBoard);
+    for(int i = 0; i<tempBoard.length ; i++){
+      if(tempBoard[i]== null){
+        tempBoard[i] = i;
+      }
+    }
+    return minmax(tempBoard,aiPlayer)['index'];
   }
 
   minmax(newBoard,player){
     List<int> availSpots = emptySpots(newBoard);
-
-    if (checkGamePlay(huPlayer)) {
+    if (analysGamePlay(newBoard,huPlayer)) {
       return {'score': -10};
-    } else if (checkGamePlay(aiPlayer)) {
+    } else if (analysGamePlay(newBoard,aiPlayer)) {
       return {'score': 10};
     } else if (availSpots.length == 0) {
       return {'score': 0};
@@ -159,7 +181,7 @@ class _MyHomePageState extends State<MyHomePage> {
     var moves=[];
     for(var i =0; i< availSpots.length; i++){
       var move = new Map();
-      move['index'] = availSpots[i];
+      move['index'] = newBoard[availSpots[i]];
       newBoard[availSpots[i]] = player;
 
       if(player == aiPlayer){
@@ -194,7 +216,6 @@ class _MyHomePageState extends State<MyHomePage> {
         }
       }
     }
-
     return moves[bestMove];
   }
 
