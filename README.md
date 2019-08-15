@@ -2,6 +2,8 @@
 
 Ai based Tic Tac Toe game developed with Flutter Interface
 
+Simple Game Developed with Google Flutter Framework.
+
 
 Alogrithm:
 
@@ -28,3 +30,8 @@ Credit:
 BUILD COMMAND:
 	for Bundle 	: flutter build appbundle
 	for APK 	: flutter build apk
+	
+	
+
+HashTags:
+	#flutter #google #game #ai #ai_game #minmax #algorithm #framework #programming #mfatha_programming #mfathaprogramming
